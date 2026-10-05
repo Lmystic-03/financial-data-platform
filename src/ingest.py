@@ -20,4 +20,6 @@ def ingest_prices(ticker: str, period: str = "1y") -> Path:
 
 
 if __name__ == "__main__":
-    ingest_prices("AAPL")
+    TICKERS = ["AAPL", "MSFT", "GOOGL", "JPM"]
+    for ticker in TICKERS:
+        ingest_prices(ticker)
