@@ -27,3 +27,6 @@ Thumbs.db
 data/raw/
 data/silver/
 data/gold/
+# Tests and logs
+.pytest_cache/
+*.log
