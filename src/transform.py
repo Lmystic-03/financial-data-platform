@@ -7,20 +7,23 @@ RAW_DIR = Path("data/raw")
 SILVER_DIR = Path("data/silver")
 
 
-def build_silver(ticker: str) -> Path:
-    """Read raw prices, clean them, add features, save to silver."""
-    SILVER_DIR.mkdir(parents=True, exist_ok=True)
+def add_features(df: pd.DataFrame, ticker: str) -> pd.DataFrame:
+    """Clean a raw price table and add returns, moving average and volatility."""
+    df = df.sort_values("Date").drop_duplicates(subset="Date").dropna().copy()
 
-    df = pd.read_parquet(RAW_DIR / f"{ticker}.parquet")
-
-    # Cleaning
-    df = df.sort_values("Date").drop_duplicates(subset="Date").dropna()
-
-    # Features
     df["ticker"] = ticker
     df["log_return"] = np.log(df["Close"] / df["Close"].shift(1))
     df["ma_20"] = df["Close"].rolling(20).mean()
     df["volatility_20"] = df["log_return"].rolling(20).std() * np.sqrt(252)
+    return df
+
+
+def build_silver(ticker: str) -> Path:
+    """Read raw prices, add features, save to silver."""
+    SILVER_DIR.mkdir(parents=True, exist_ok=True)
+
+    raw = pd.read_parquet(RAW_DIR / f"{ticker}.parquet")
+    df = add_features(raw, ticker)
 
     output_path = SILVER_DIR / f"{ticker}.parquet"
     df.to_parquet(output_path, index=False)
