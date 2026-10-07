@@ -2,10 +2,10 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from config import ALL_TICKERS as TICKERS
 
 SILVER_DIR = Path("data/silver")
 GOLD_DIR = Path("data/gold")
-TICKERS = ["AAPL", "MSFT", "GOOGL", "JPM"]
 
 
 def build_gold() -> None:
