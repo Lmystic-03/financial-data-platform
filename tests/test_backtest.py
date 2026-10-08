@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from backtest import count_exceptions, kupiec_test
+from backtest import count_exceptions, kupiec_test, garch_var
 
 
 def test_kupiec_perfect_rate_gives_zero_lr():
@@ -39,3 +39,12 @@ def test_count_exceptions_no_lookahead():
     exc = count_exceptions(returns, var_func, 0.99, window=250)
     assert exc.iloc[300 - 250]            # le choc est bien détecté
     assert exc.sum() <= 5                 # et presque rien d'autre
+
+
+def test_garch_var_positive_and_ordered():
+    rng = np.random.default_rng(1)
+    r = pd.Series(rng.standard_t(5, 600) * 0.01)
+    v95 = garch_var(r, 0.95)
+    v99 = garch_var(r, 0.99)
+    assert v95 > 0
+    assert v99 > v95
