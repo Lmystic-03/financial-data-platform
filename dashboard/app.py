@@ -37,3 +37,22 @@ else:
 st.subheader("Corrélations des rendements")
 st.plotly_chart(px.imshow(corr, text_auto=".2f", color_continuous_scale="RdBu_r",
                         zmin=-1, zmax=1), width="stretch")
+
+st.header("Risque")
+
+risk = load("risk")   # index = ticker, valeurs en décimales (0.0329 = 3,29 %)
+level = st.radio("Niveau de confiance", ["95", "99"], horizontal=True)
+
+cols = {
+    f"hist_var_{level}": "VaR historique",
+    f"param_var_{level}": "VaR paramétrique",
+    f"es_{level}": "Expected Shortfall",
+}
+view = (risk[list(cols)] * 100).rename(columns=cols)   # en %
+
+st.plotly_chart(
+    px.bar(view, barmode="group", labels={"value": "Perte journalière (%)", "index": ""}),
+    width="stretch",
+)
+st.dataframe(view.round(2), width="stretch")
+st.caption("Perte journalière maximale attendue (VaR) et perte moyenne au-delà (ES), en % du portefeuille.")
