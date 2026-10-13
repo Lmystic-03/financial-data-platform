@@ -62,6 +62,13 @@ python src\pipeline.py
 python -m pytest
 ```
 
+Pour générer la série de volatilité GARCH consommée par l'onglet du dashboard, exécuter après le pipeline :
+
+```powershell
+python src\garch.py
+streamlit run dashboard\app.py
+```
+
 ## Prochaines étapes
 
 - Dashboard Streamlit
