@@ -70,8 +70,3 @@ Pour générer la série de volatilité GARCH consommée par l'onglet du dashboa
 python src\garch.py
 streamlit run dashboard\app.py
 ```
-
-## Prochaines étapes
-
-- Dashboard Streamlit
-- Logging et exécution planifiée
