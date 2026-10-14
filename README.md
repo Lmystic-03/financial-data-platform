@@ -1,6 +1,8 @@
 # Financial Data Platform
 
 ![Tests](https://github.com/Lmystic-03/financial-data-platform/actions/workflows/tests.yml/badge.svg)
+## Voir le dashboard en ligne
+(https://financial-data-platform-2b6s9gyjyismvjqk9mwc3g.streamlit.app/)
 
 Pipeline de données financières de bout en bout (ingestion, transformation, analyse de risque) sur 8 actions américaines et le benchmark SPY, avec une fenêtre glissante de 10 ans.
 
